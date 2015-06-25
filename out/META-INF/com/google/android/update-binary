@@ -96,3 +96,4 @@ umount /system;
 ui_print " ";
 ui_print "Device Bricked Have Fun With Bricked Device :P";
 
+
