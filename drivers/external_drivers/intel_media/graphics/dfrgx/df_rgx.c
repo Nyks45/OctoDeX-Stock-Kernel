@@ -742,6 +742,10 @@ static int df_rgx_busfreq_probe(struct platform_device *pdev)
 	}
 	else {*/
 	df->min_freq = DF_RGX_FREQ_KHZ_MIN;
+	if(scr_suspended == false) {
+		df->min_freq = DFRGX_FREQ_457_MHZ; }
+	else {
+		df->min_freq = DF_RGX_FREQ_KHZ_MIN; }
 	df->max_freq = DF_RGX_FREQ_KHZ_MAX;
 	//}
 	DFRGX_DPF(DFRGX_DEBUG_HIGH, "%s: dev_id = 0x%x, min_freq = %lu, max_freq = %lu\n",
