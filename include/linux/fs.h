@@ -1306,10 +1306,17 @@ struct super_block {
 
 	struct shrinker s_shrink;	/* per-sb shrinker handle */
 
+<<<<<<< HEAD
 #ifdef CONFIG_ASYNC_FSYNC
 #define FLAG_ASYNC_FSYNC        0x1
 	unsigned int fsync_flags;
 #endif
+=======
+	#ifdef CONFIG_ASYNC_FSYNC
+	#define FLAG_ASYNC_FSYNC        0x1
+		unsigned int fsync_flags;
+	#endif
+>>>>>>> eed6993... Implemented Async Fsync from HTC
 
 	/* Number of inodes with nlink == 0 but still referenced */
 	atomic_long_t s_remove_count;

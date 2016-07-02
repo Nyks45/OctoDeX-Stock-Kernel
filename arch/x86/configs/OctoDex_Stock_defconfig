@@ -4255,7 +4255,11 @@ CONFIG_CLZ_TAB=y
 # CONFIG_DDR is not set
 CONFIG_MPILIB=y
 CONFIG_OID_REGISTRY=y
+<<<<<<< HEAD:arch/x86/configs/OctoDex_Stock_defconfig
 # CONFIG_ASMP is not set
 CONFIG_ALUCARD_HOTPLUG=y
 # CONFIG_MSM_HOTPLUG is not set
 # CONFIG_INTELLI_PLUG is not set
+=======
+CONFIG_ASYNC_FSYNC=y
+>>>>>>> eed6993... Implemented Async Fsync from HTC:arch/x86/configs/cyanogenmod_zenfone2_defconfig
