@@ -15,10 +15,10 @@ export CPUS=`nproc`
 echo "Setting Version Number"
 export VER=v$1
 echo "Setting Extra Version"
-export EV=EXTRAVERSION=_FlareX_v$1
+export EV=EXTRAVERSION=_OctodeX_v$1
 echo "Setting Defconfig"
-export DEFCONFIG=x86_64_moor_defconfig
-echo "Setting bzImage Location For FlareX kernel"
+export DEFCONFIG=OctoDex_Stock_defconfig
+echo "Setting bzImage Location For OctodeX kernel"
 export BZIMAGE=arch/x86/boot/bzImage
 echo "Enabling Graphite Optimizations"
 export ENABLE_GRAPHITE=true
@@ -26,10 +26,13 @@ echo "Set KBUILD_BUILD_VERSION to zero at all times"
 export KBUILD_BUILD_VERSION="0"
 echo "Enviroment Setup Complete Now Moving To Compiling"
 
+export ARCH=x86_64
+export CCOMPILE=$CROSS_COMPILE
+export CROSS_COMPILE=x86_64-linux-android-
+
 #Build
 echo "Cleaning Out Compiled Files"
 sleep 1
-#make clean
 wmctrl -r :ACTIVE: -N "Starting Build Process"
 echo "Starting Build Process"
 export USE_CCACHE=1
@@ -72,7 +75,7 @@ echo "Starting Build Process  : done"
 echo "Build complete"
 
 #Kernel Packing
-wmctrl -r :ACTIVE: -N "FlareX Kernel Packing"
+wmctrl -r :ACTIVE: -N "OctodeX Kernel Packing"
 echo "Starting Packing To Recovery Flashable Zip"
 cd out/
 echo "Removing Old Files"
@@ -81,11 +84,10 @@ sleep 1
 echo "Copying bzImage"
 mv ../arch/x86/boot/bzImage bzImage
 sleep 1
-echo "Compiling FlareX_"$VER".zip"
-find . -type f -exec zip FlareX_"$VER".zip {} +
+echo "Compiling OctodeX_"$VER".zip"
+find . -type f -exec zip OctodeX_"$VER".zip {} +
 nowf=$(date +"%T")
 cd ..
-make clean
 rm out/bzImage
 printf "cleaned files"
 printf "\n\nzip created\n"

@@ -18,7 +18,6 @@
 *.so
 *.so.dbg
 *.mod.c
-*.i
 *.lst
 *.symtypes
 *.order
@@ -33,18 +32,7 @@ modules.builtin
 *.patch
 *.gcno
 *.zip
-*.rej
-*.config
-*.rej
-*.orig
-*bzImage
-*boot.img
-*Image
-kernel/config_data.h
-scripts/recordmcount
-kernel/usr/*
-kernel/hz.bc
-Package/*
+bzImage
 
 #
 # Top-level generic files
