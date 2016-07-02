@@ -33,10 +33,6 @@ export CROSS_COMPILE=x86_64-linux-android-
 #Build
 echo "Cleaning Out Compiled Files"
 sleep 1
-<<<<<<< HEAD
-=======
-sleep $SLEEP
->>>>>>> ebde5ba... Add Barry Allen Governor
 wmctrl -r :ACTIVE: -N "Starting Build Process"
 echo "Starting Build Process"
 export USE_CCACHE=1
@@ -92,10 +88,6 @@ echo "Compiling OctodeX_"$VER".zip"
 find . -type f -exec zip OctodeX_"$VER".zip {} +
 nowf=$(date +"%T")
 cd ..
-<<<<<<< HEAD
-=======
-printf "\n\n zip created\n"
->>>>>>> ebde5ba... Add Barry Allen Governor
 rm out/bzImage
 printf "cleaned files"
 printf "\n\nzip created\n"
@@ -103,3 +95,4 @@ end=`date +%s`
 runtime=$((end-start))
 echo "Completion Time :"
 echo "$runtime sec\n"
+
