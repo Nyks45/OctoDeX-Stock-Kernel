@@ -59,20 +59,11 @@ static const unsigned int tacc_mant[] = {
 #ifdef CONFIG_ASYNC_FSYNC
 static unsigned int perf_degr;
 int emmc_perf_degr(void)
-<<<<<<< HEAD
 {
 	return perf_degr;
 }
 #endif
 
-=======
-	{
-		return perf_degr;
-	}
-#endif
-
-
->>>>>>> eed6993... Implemented Async Fsync from HTC
 /*
  * Given the decoded CSD structure, decode the raw CID to our CID structure.
  */

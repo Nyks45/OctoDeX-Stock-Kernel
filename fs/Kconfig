@@ -273,13 +273,10 @@ config ASYNC_FSYNC
 	bool "asynchronous fsync"
 	default y
 
-<<<<<<< HEAD
 config DYNAMIC_FSYNC
 	bool "dynamic file sync control"
 	default n
 	help
 	An experimental file sync control using Android's power suspend / late resume drivers
 
-=======
->>>>>>> eed6993... Implemented Async Fsync from HTC
 endmenu

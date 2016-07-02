@@ -7,7 +7,6 @@
 #include <linux/fs.h>
 #include <linux/slab.h>
 #include <linux/export.h>
-#include <linux/module.h>
 #include <linux/namei.h>
 #include <linux/sched.h>
 #include <linux/writeback.h>
@@ -21,11 +20,6 @@
 #include <linux/statfs.h>
 #endif
 
-<<<<<<< HEAD
-=======
-bool fsync_enabled = true;
-module_param(fsync_enabled, bool, 0755);
->>>>>>> eed6993... Implemented Async Fsync from HTC
 
 #define VALID_FLAGS (SYNC_FILE_RANGE_WAIT_BEFORE|SYNC_FILE_RANGE_WRITE| \
 			SYNC_FILE_RANGE_WAIT_AFTER)
@@ -225,9 +219,6 @@ SYSCALL_DEFINE1(syncfs, int, fd)
 	struct super_block *sb;
 	int ret;
 
-	if (!fsync_enabled)
-		return 0;
-
 	if (!f.file)
 		return -EBADF;
 	sb = f.file->f_dentry->d_sb;
@@ -253,9 +244,6 @@ SYSCALL_DEFINE1(syncfs, int, fd)
  */
 int vfs_fsync_range(struct file *file, loff_t start, loff_t end, int datasync)
 {
-	if (!fsync_enabled)
-		return 0;
-		
 	if (!file->f_op || !file->f_op->fsync)
 		return -EINVAL;
 	return file->f_op->fsync(file, start, end, datasync);
@@ -272,9 +260,6 @@ EXPORT_SYMBOL(vfs_fsync_range);
  */
 int vfs_fsync(struct file *file, int datasync)
 {
-	if (!fsync_enabled)
-		return 0;
-		
 	return vfs_fsync_range(file, 0, LLONG_MAX, datasync);
 }
 EXPORT_SYMBOL(vfs_fsync);
@@ -341,38 +326,19 @@ static int do_fsync(unsigned int fd, int datasync)
 #ifdef CONFIG_ASYNC_FSYNC
 	struct fsync_work *fwork;
 #endif
-<<<<<<< HEAD
 	if (f.file) {
-=======
-
-	if (!fsync_enabled)
-		return 0;
-
-	if (f.file) {
-		ktime_t fsync_t, fsync_diff;
->>>>>>> eed6993... Implemented Async Fsync from HTC
 		char pathname[256], *path;
 		path = d_path(&(f.file->f_path), pathname, sizeof(pathname));
 		if (IS_ERR(path))
 			path = "(unknown)";
 #ifdef CONFIG_ASYNC_FSYNC
-<<<<<<< HEAD
 		if (async_fsync(f.file, fd)) {
-=======
-		else if (async_fsync(f.file, fd)) {
->>>>>>> eed6993... Implemented Async Fsync from HTC
 			if (!fsync_workqueue)
 				fsync_workqueue =
 					create_singlethread_workqueue("fsync");
 			if (!fsync_workqueue)
 				goto no_async;
 
-<<<<<<< HEAD
-=======
-			if (IS_ERR(path))
-				goto no_async;
-
->>>>>>> eed6993... Implemented Async Fsync from HTC
 			fwork = kmalloc(sizeof(*fwork), GFP_KERNEL);
 			if (fwork) {
 				strncpy(fwork->pathname, path,
@@ -385,37 +351,19 @@ static int do_fsync(unsigned int fd, int datasync)
 		}
 no_async:
 #endif
-<<<<<<< HEAD
-=======
-		fsync_t = ktime_get();
->>>>>>> eed6993... Implemented Async Fsync from HTC
 		ret = vfs_fsync(f.file, datasync);
 		fdput(f);
-		fsync_diff = ktime_sub(ktime_get(), fsync_t);
-		if (ktime_to_ms(fsync_diff) >= 5000) {
-                        pr_info("VFS: %s pid:%d(%s)(parent:%d/%s)\
-				takes %lld ms to fsync %s.\n", __func__,
-				current->pid, current->comm,
-				current->parent->pid, current->parent->comm,
-				ktime_to_ms(fsync_diff), path);
-		}
 	}
 	return ret;
 }
 
 SYSCALL_DEFINE1(fsync, unsigned int, fd)
 {
-	if (!fsync_enabled)
-		return 0;
-
 	return do_fsync(fd, 0);
 }
 
 SYSCALL_DEFINE1(fdatasync, unsigned int, fd)
 {
-	if (!fsync_enabled)
-		return 0;
-		
 	return do_fsync(fd, 1);
 }
 
@@ -429,9 +377,6 @@ SYSCALL_DEFINE1(fdatasync, unsigned int, fd)
  */
 int generic_write_sync(struct file *file, loff_t pos, loff_t count)
 {
-	if (!fsync_enabled)
-		return 0;
-		
 	if (!(file->f_flags & O_DSYNC) && !IS_SYNC(file->f_mapping->host))
 		return 0;
 	return vfs_fsync_range(file, pos, pos + count - 1,
@@ -494,9 +439,6 @@ SYSCALL_DEFINE4(sync_file_range, int, fd, loff_t, offset, loff_t, nbytes,
 	struct address_space *mapping;
 	loff_t endbyte;			/* inclusive */
 	umode_t i_mode;
-
-	if (!fsync_enabled)
-		return 0;
 
 	ret = -EINVAL;
 	if (flags & ~VALID_FLAGS)
